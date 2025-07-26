@@ -105,7 +105,6 @@
         </tr>
       </thead>
       <tbody id="transactionBody">
-        <!-- Rows will be dynamically added here -->
       </tbody>
     </table>
 
@@ -134,7 +133,7 @@
       const input = e.target;
       const raw = input.value.replace(/[^\d]/g, '');
       input.value = formatNumber(raw);
-      calculateAutoFields(input);  // <-- this line triggers recalculation
+      calculateAutoFields(input); 
     }
 
 
@@ -224,29 +223,25 @@
       const totalNota = totalNotaRaw ? parseInt(totalNotaRaw) : null;
       const pph21 = pph21Raw ? parseInt(pph21Raw) : null;
 
-      // Only format total nota if present
-      if (totalNota !== null) {
-        totalNotaInput.value = formatNumber(totalNota);
-      }
+        if (totalNota !== null) {
+          totalNotaInput.value = formatNumber(totalNota);
+        }
 
-      // Only format pph21 if present
-      if (pph21 !== null) {
-        pph21Input.value = formatNumber(pph21);
-      }
+        if (pph21 !== null) {
+          pph21Input.value = formatNumber(pph21);
 
-      // Calculate and fill jasa 2.5% only if pph21 is present
-      if (pph21 !== null) {
         const jasa25 = Math.round(pph21 * 0.025);
         jasa25Input.value = formatNumber(jasa25);
+
+        if (totalNota !== null) {
+          const grand = totalNota - jasa25;
+          grandTotalInput.value = formatNumber(grand);
+        } else {
+          grandTotalInput.value = '';
+        }
+
       } else {
         jasa25Input.value = '';
-      }
-
-      // Calculate and fill grand total only if totalNota and pph21 are present
-      if (totalNota !== null && pph21 !== null) {
-        const grand = totalNota - pph21;
-        grandTotalInput.value = formatNumber(grand);
-      } else {
         grandTotalInput.value = '';
       }
     }
